@@ -1,0 +1,60 @@
+一 git安装
+1.网站地址：https://git-scm.com/downloads
+2.下载安装好之后配置环境变量 控制面板->高级远程设置->环境变量配置->path里面添加E:\Git\Git\bin
+3.配置用户名和邮箱：
+git config --global "ybk"
+git config --global "1531448076@qq.com"
+成功之后会在C:\Users\15314目录下生成.gitconfig文件,里面保存了刚刚注册的用户名和邮箱
+也可用git config --global --list查看是否配置成功
+
+二 使用github托管网站
+为了在本地和远程仓库之间进行免密钥登录，可以配置ssh
+1.生成ssh
+ssh-keygen -t rsa -C 1531448076@qq.com
+成功之后会在C:\Users\15314\.ssh目录下生成id_rsa和id_rsa.pub(对公)两个密钥文件
+2.发送给远程github，登录远程远程托管网站(https://github.com/login，用户名1531448076@qq.com 密码:135805542860a)
+登录进去后在右上角找到settings->SSH and GPG keys-> SSH keys ->New SSH key->title任意输入，
+key输入前面生成的id_rsa.pub(对公)文件里的key。
+注：输入进去最后一行的不要有空行
+验证连通性:
+ssh  -T git@github.com
+如果本地和远程成功通信，则可以在C:\Users\15314\.ssh目录中发现know_hosts文件
+如果失败；多尝试几次,并且检查回车符，空格
+三  本地发送项目给远程
+1.新建文件夹例如mygitprj,在bash终端切换到该新建目录下( cd /C/Users/15314/Desktop/mygitprj)，
+执行git init后该目录就成为git项目,成功之后会多出.git目录
+2.在远程建立git项目 Your project-> Repositories->New 远程项目名(gitremote)->生成了远程仓库，并且仓库项目地址为(https://github.com/yanbink/gitremote.git)
+3.本地仓库项目和远程仓库的项目关联
+git remote add origin git@github.com:yanbink/gitremote.git
+删除本地和远程项目的关联 git remote rm origin git@github.com:yanbink/gitremote.git或者删除.git目录
+4.第一次发布项目(本地-远程)
+git add . //文件-暂存区
+git commit -m "注释内容" //暂存区-本地分支(默认master)
+git push -u origin master
+或者git push -u  git@github.com:yanbink/gitremote.git
+5.第一次下载项目（远程到本地）
+git clone git@github.com:yanbink/gitremote.git
+6.提交(本地-远程)
+git add.
+git commit -m "提交到分支"
+git push origin master
+或者 git push git@github.com:yanbink/gitremote.git
+7.更新(远程->本地)
+git pull git@github.com:yanbink/gitremote.git
+注:如果远程项目有别人部署过但是而我们本地没有过文档，，这时需要本地先把远程的git pull拉取下来，
+不然会报error: failed to push some refs to 'github.com:yanbink/本地才可以提交到远程
+如果我们本地仓库的版本跟远程仓库的版本相差很大即不是远程版本之前的版本，
+这时我们去拉取会报错
+refusing to merge unrelated histories或error: The following untracked working tree files would be overwritten by merge:
+     git的安装部署操作步骤.txt Please move or remove them before you merge.  Aborting
+这时如果本地提交到远程的时候会报错
+ ! [rejected]        master -> master (non-fast-forward)
+error: failed to push some refs to 'github.com:yanbink/gitremote.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+解决办法:删掉本地git项目，重新拉取
+
+
+
